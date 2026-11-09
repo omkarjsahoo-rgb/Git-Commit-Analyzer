@@ -58,6 +58,7 @@ export const api = {
 
   // Used from step 5B onward.
   commits: (path, options) => get("/api/commits", { path, ...options }),
+  branches: (path) => get("/api/branches", { path }),
   qualitySummary: (path, options) => get("/api/quality/summary", { path, ...options }),
   contributors: (path, options) => get("/api/contributors", { path, ...options }),
   activity: (path, period, options) => get("/api/activity", { path, period, ...options }),

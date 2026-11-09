@@ -637,3 +637,217 @@ code {
     grid-template-columns: 1fr;
   }
 }
+/* ---------- Toolbar, filters, pagination ---------- */
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.search {
+  position: relative;
+  flex: 1 1 260px;
+}
+.search svg {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  pointer-events: none;
+}
+.search .input {
+  padding-left: 32px;
+}
+.select {
+  width: auto;
+  min-width: 140px;
+}
+.inline-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-sm {
+  padding: 4px 10px;
+  font-size: 13px;
+}
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.small {
+  font-size: 12px;
+}
+.badge-muted {
+  color: var(--muted);
+}
+
+/* ---------- Expandable commit rows ---------- */
+
+.row-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.row-toggle svg {
+  flex-shrink: 0;
+  color: var(--muted);
+}
+.row-toggle span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.row-toggle:hover span {
+  color: var(--green);
+}
+
+.detail-row td {
+  padding: 16px 20px;
+  background: var(--bg-secondary);
+}
+.detail {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.detail p {
+  margin: 8px 0;
+}
+.detail-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.message-box {
+  margin: 0;
+  max-height: 220px;
+  overflow: auto;
+  padding: 10px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.issue-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 8px 0;
+  padding: 0;
+  list-style: none;
+}
+.issue {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+}
+.issue svg {
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+.issue-tag {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.issue-error svg,
+.issue-error .issue-tag {
+  color: var(--error);
+}
+.issue-warning svg,
+.issue-warning .issue-tag {
+  color: var(--warning);
+}
+
+/* ---------- Contributor share bar ---------- */
+
+.share {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 140px;
+}
+.share-bar {
+  flex: 1;
+  height: 6px;
+  overflow: hidden;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+.share-bar span {
+  display: block;
+  height: 100%;
+  background: var(--green);
+}
+.share-pct {
+  width: 48px;
+  font-size: 12px;
+  text-align: right;
+}
+
+/* ---------- Branch status ---------- */
+
+.status {
+  display: inline-block;
+  padding: 1px 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.status-active {
+  color: var(--green);
+  border-color: var(--green-dark);
+}
+.status-stale {
+  color: var(--warning);
+  border-color: var(--warning);
+}
+.status-flagged {
+  color: var(--error);
+  border-color: var(--error);
+}
+.status-quiet {
+  color: var(--muted);
+}
+.row-flagged td:first-child {
+  box-shadow: inset 2px 0 0 var(--error);
+}
+
+@media (max-width: 860px) {
+  .detail {
+    grid-template-columns: 1fr;
+  }
+}

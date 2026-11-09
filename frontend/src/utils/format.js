@@ -28,3 +28,11 @@ export function formatDate(isoString) {
   if (Number.isNaN(date.getTime())) return "";
   return date.toLocaleDateString(undefined, { day: "2-digit", month: "short", year: "numeric" });
 }
+
+// Same thresholds as the backend, so a number can be coloured without another request.
+export function ratingFor(score) {
+  if (score >= 80) return "excellent";
+  if (score >= 60) return "good";
+  if (score >= 40) return "fair";
+  return "poor";
+}

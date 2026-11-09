@@ -2,12 +2,12 @@ import { Bar } from "react-chartjs-2";
 import "./chartSetup.js";
 import { COLORS, baseOptions } from "./chartTheme.js";
 
-export default function ActivityChart({ labels, commits }) {
+export default function ActivityChart({ labels, commits, label = "Commits" }) {
   const data = {
     labels,
     datasets: [
       {
-        label: "Commits",
+        label,
         data: commits,
         backgroundColor: COLORS.green,
         borderRadius: 2,
