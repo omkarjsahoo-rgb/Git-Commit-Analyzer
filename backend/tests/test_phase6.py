@@ -173,8 +173,8 @@ def test_health_summary_penalizes_flagged_branches():
     commits = report_service.analyze_commits([{
         "hash": "a" * 40,
         "short_hash": "aaaaaaa",
-        "subject": "feat: add x",
-        "message": "feat: add x",
+        "subject": "feat: add login page",
+        "message": "feat: add login page",
         "author_name": "Alice",
         "author_email": "a@x.com",
         "authored_at": now - timedelta(days=1),
