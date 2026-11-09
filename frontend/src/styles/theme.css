@@ -1,0 +1,28 @@
+:root {
+  /* Palette */
+  --bg: #090d0b;
+  --bg-secondary: #101713;
+  --card: #141c17;
+  --green: #22c55e;
+  --green-dark: #16a34a;
+  --text: #e5e7eb;
+  --muted: #8b968e;
+  --border: #26352b;
+  --warning: #eab308;
+  --error: #ef4444;
+
+  /* Subtle tints derived from the palette */
+  --green-soft: rgba(34, 197, 94, 0.1);
+  --error-soft: rgba(239, 68, 68, 0.1);
+
+  /* Layout */
+  --radius: 6px;
+  --sidebar-width: 232px;
+  --topbar-height: 52px;
+
+  /* Typography (system fonts, no downloads) */
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, "Cascadia Code", Consolas, "SF Mono", monospace;
+
+  color-scheme: dark;
+}
