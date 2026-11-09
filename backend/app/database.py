@@ -52,3 +52,14 @@ def get_db():
         raise
     finally:
         conn.close()
+
+def upsert_repository(db, path, name):
+    """Insert the repository if it is new, then return its id."""
+    db.execute(
+        """
+        INSERT INTO repositories (path, name) VALUES (?, ?)
+        ON CONFLICT(path) DO UPDATE SET name = excluded.name
+        """,
+        (path, name),
+    )
+    return db.execute("SELECT id FROM repositories WHERE path = ?", (path,)).fetchone()["id"]

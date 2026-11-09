@@ -36,3 +36,16 @@ export function ratingFor(score) {
   if (score >= 40) return "fair";
   return "poor";
 }
+
+// Snapshot times come from SQLite as UTC text like "2026-11-09 08:15:00" (no timezone marker).
+export function formatDateTime(sqliteTimestamp) {
+  const date = new Date(String(sqliteTimestamp).replace(" ", "T") + "Z");
+  if (Number.isNaN(date.getTime())) return "";
+  return date.toLocaleString(undefined, {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}

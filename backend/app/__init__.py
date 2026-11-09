@@ -23,12 +23,14 @@ def create_app(config_overrides=None):
     from .routes.repository import repository_bp
     from .routes.quality import quality_bp
     from .routes.analytics import analytics_bp
+    from .routes.reports import reports_bp
 
     app.register_blueprint(repository_bp)
     app.register_blueprint(commits_bp)
     app.register_blueprint(branches_bp)
     app.register_blueprint(quality_bp)
     app.register_blueprint(analytics_bp)
+    app.register_blueprint(reports_bp)
 
     @app.get("/api/health")
     def health():

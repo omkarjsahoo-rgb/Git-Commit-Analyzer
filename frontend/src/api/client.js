@@ -34,7 +34,7 @@ async function request(url, options) {
   return data;
 }
 
-function get(endpoint, params = {}) {
+function buildUrl(endpoint, params = {}) {
   const query = new URLSearchParams();
   for (const [key, value] of Object.entries(params)) {
     if (value !== undefined && value !== null && value !== "") {
@@ -42,21 +42,60 @@ function get(endpoint, params = {}) {
     }
   }
   const text = query.toString();
-  return request(text ? `${endpoint}?${text}` : endpoint);
+  return text ? `${endpoint}?${text}` : endpoint;
+}
+
+function get(endpoint, params) {
+  return request(buildUrl(endpoint, params));
+}
+
+function post(endpoint, body) {
+  return request(endpoint, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+}
+
+// Fetches a file and hands it to the browser as a download.
+// Going through fetch (instead of a plain link) lets us show a readable error if it fails.
+async function download(endpoint, params) {
+  let response;
+  try {
+    response = await fetch(buildUrl(endpoint, params));
+  } catch {
+    throw new ApiError(BACKEND_DOWN);
+  }
+
+  if (!response.ok) {
+    let message = `Download failed (${response.status}).`;
+    try {
+      const data = await response.json();
+      if (data?.error) message = data.error;
+    } catch {
+      // Not JSON: keep the generic message.
+    }
+    throw new ApiError(message, response.status);
+  }
+
+  const blob = await response.blob();
+  const match = /filename="([^"]+)"/.exec(response.headers.get("Content-Disposition") ?? "");
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = match ? match[1] : "report.csv";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
 export const api = {
   health: () => get("/api/health"),
 
-  openRepository: (path) =>
-    request("/api/repository/open", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ path }),
-    }),
+  openRepository: (path) => post("/api/repository/open", { path }),
   recentRepositories: () => get("/api/repository/recent"),
 
-  // Used from step 5B onward.
   commits: (path, options) => get("/api/commits", { path, ...options }),
   branches: (path) => get("/api/branches", { path }),
   qualitySummary: (path, options) => get("/api/quality/summary", { path, ...options }),
@@ -64,4 +103,10 @@ export const api = {
   activity: (path, period, options) => get("/api/activity", { path, period, ...options }),
   branchAnalysis: (path, inactiveDays) =>
     get("/api/branches/analysis", { path, inactive_days: inactiveDays }),
+
+  reportHealth: (path) => get("/api/reports/health", { path }),
+  snapshots: (path) => get("/api/reports/snapshots", { path }),
+  saveSnapshot: (path) => post("/api/reports/snapshots", { path }),
+  // kind is "commits", "contributors" or "branches"
+  downloadReport: (kind, path) => download(`/api/reports/${kind}.csv`, { path }),
 };

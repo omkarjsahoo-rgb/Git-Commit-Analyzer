@@ -154,6 +154,29 @@ def get_branch_details(repo):
         })
     return {"base_branch": base, "branches": details}
 
+def get_commit_details(repo, branch=None, max_count=5000):
+    """Everything the reports need about each commit, newest first (real datetimes, not text)."""
+    if not repo.head.is_valid():
+        return {"total": 0, "commits": []}
+
+    rev = _revision(repo, branch)
+    total = _count_commits(repo, rev)
+    commits = []
+    for commit in repo.iter_commits(rev, max_count=max_count):
+        message = _text(commit.message).strip()
+        commits.append({
+            "hash": commit.hexsha,
+            "short_hash": commit.hexsha[:7],
+            "subject": message.partition("\n")[0].strip(),
+            "message": message,
+            "author_name": _text(commit.author.name),
+            "author_email": _text(commit.author.email),
+            "authored_at": commit.authored_datetime,
+            "committed_at": commit.committed_datetime,
+            "is_merge": len(commit.parents) > 1,
+        })
+    return {"total": total, "commits": commits}
+
 # ---------- helpers ----------
 
 def _text(value):
