@@ -10,3 +10,4 @@ class Config:
     DEBUG = True         # development only
     CORS_ORIGINS = ["http://localhost:5173", "http://127.0.0.1:5173"]
     MAX_ANALYZED_COMMITS = 5000  # safety cap for bulk analysis
+    ALLOWED_HOSTS = ("localhost", "127.0.0.1", "::1")  # blocks DNS-rebinding attacks

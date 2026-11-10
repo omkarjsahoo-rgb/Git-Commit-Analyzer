@@ -303,7 +303,8 @@ def _exempt_reason(subject, is_merge):
 
 
 def _is_vague(description):
-    words = re.findall(r"[a-z0-9']+", description.lower())
+    # [^\W_]+ means "letters and digits in any language", so Russian, Hindi or Chinese words count.
+    words = re.findall(r"[^\W_]+(?:'[^\W_]+)*", description.lower())
     if not words or len("".join(words)) < 3:
         return True
     return all(word in VAGUE_WORDS for word in words)

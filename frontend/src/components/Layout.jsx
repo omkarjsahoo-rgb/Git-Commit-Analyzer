@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
+import ErrorBoundary from "./ErrorBoundary.jsx";
 import Sidebar from "./Sidebar.jsx";
 import TopBar from "./TopBar.jsx";
 
 export default function Layout() {
   const [navOpen, setNavOpen] = useState(false);
+  const location = useLocation();
   const closeNav = () => setNavOpen(false);
 
   return (
@@ -15,7 +17,10 @@ export default function Layout() {
       <div className="main">
         <TopBar onMenu={() => setNavOpen(true)} />
         <main className="content">
-          <Outlet />
+          {/* key={pathname}: moving to another page clears a previous crash */}
+          <ErrorBoundary key={location.pathname}>
+            <Outlet />
+          </ErrorBoundary>
         </main>
       </div>
     </div>

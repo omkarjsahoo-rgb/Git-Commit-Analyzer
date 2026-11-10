@@ -27,6 +27,12 @@ def open_repository(path):
     except NoSuchPathError:
         raise RepositoryError("This path does not exist.")
 
+    if repo.bare:
+        repo.close()
+        raise RepositoryError(
+            "This is a bare repository (it has no working folder). Select a normal clone instead."
+        )
+
     try:
         yield repo
     finally:
