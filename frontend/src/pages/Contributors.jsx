@@ -10,9 +10,10 @@ import StatCard from "../components/StatCard.jsx";
 import { useRepo } from "../context/RepoContext.jsx";
 import { useApi } from "../hooks/useApi.js";
 import { formatDate, formatNumber, ratingFor } from "../utils/format.js";
+import { loadPreferences } from "../utils/preferences.js";
 
 function ContributorsView({ repo }) {
-  const [period, setPeriod] = useState("weekly");
+  const [period, setPeriod] = useState(() => loadPreferences().period);
 
   const contributors = useApi(() => api.contributors(repo.path), [repo.path]);
   const activity = useApi(() => api.activity(repo.path, period), [repo.path, period]);

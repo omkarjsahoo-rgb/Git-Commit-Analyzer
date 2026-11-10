@@ -7,6 +7,7 @@ import StatCard from "../components/StatCard.jsx";
 import { useRepo } from "../context/RepoContext.jsx";
 import { useApi } from "../hooks/useApi.js";
 import { formatDate, formatNumber } from "../utils/format.js";
+import { loadPreferences } from "../utils/preferences.js";
 
 const THRESHOLDS = [14, 30, 60, 90, 180];
 
@@ -34,7 +35,7 @@ function formatAge(days) {
 }
 
 function BranchesView({ repo }) {
-  const [days, setDays] = useState(30);
+   const [days, setDays] = useState(() => loadPreferences().inactiveDays);
   const analysis = useApi(() => api.branchAnalysis(repo.path, days), [repo.path, days]);
 
   const data = analysis.data;

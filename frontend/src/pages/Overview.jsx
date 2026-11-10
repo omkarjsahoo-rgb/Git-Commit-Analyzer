@@ -11,6 +11,7 @@ import StatCard from "../components/StatCard.jsx";
 import { useRepo } from "../context/RepoContext.jsx";
 import { useApi } from "../hooks/useApi.js";
 import { formatNumber } from "../utils/format.js";
+import { loadPreferences } from "../utils/preferences.js";
 
 const PERIODS = [
   { id: "daily", label: "Daily" },
@@ -25,7 +26,7 @@ function statValue(state, pick) {
 }
 
 function Dashboard({ repo }) {
-  const [period, setPeriod] = useState("weekly");
+   const [period, setPeriod] = useState(() => loadPreferences().period);
 
   const quality = useApi(() => api.qualitySummary(repo.path), [repo.path]);
   const contributors = useApi(() => api.contributors(repo.path), [repo.path]);

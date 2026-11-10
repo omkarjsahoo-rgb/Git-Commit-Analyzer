@@ -1002,3 +1002,15 @@ code {
     gap: 20px;
   }
 }
+
+/* ---------- Settings ---------- */
+
+.pref-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin: 16px 0;
+}
+.pref-grid .select {
+  width: 100%;
+}
